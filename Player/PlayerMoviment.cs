@@ -12,12 +12,10 @@ public class PlayerMoviment : MonoBehaviour
 
     [SerializeField] private Vector2 rightOffSet, leftOffSet, bottomOffSet;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private GameObject Dust;
     const float overlapCircleRadius = 0.25f; // constante para definir a radiante do circulo usado para verificar se ha colisão com o chao
 
 
     // Condition Variable
-    private bool WasJump;
     private bool onGround;
     private bool CanMove;
 
@@ -64,12 +62,6 @@ public class PlayerMoviment : MonoBehaviour
 
             MovimentInput();
             JumpModifier();
-
-            //if (onGround && WasJump)
-            //{
-            //    WasJump = false;
-            //    if(GameObject.Find("JumpDust_0") == null)InstantiteDust();
-           // }
         }
     }
 
@@ -90,13 +82,6 @@ public class PlayerMoviment : MonoBehaviour
     {
         playerRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         pressjump = false;
-        //StartCoroutine(WasjumpOn());
-    }
-
-    IEnumerator WasjumpOn()
-    {
-        yield return new WaitForSeconds(0.2f);
-        WasJump = true;
     }
 
     private void JumpModifier()
@@ -127,15 +112,5 @@ public class PlayerMoviment : MonoBehaviour
     {
         CanMove = can;
         if (!can) playerRb.velocity = new Vector2(0, 0);
-    }
-
-    private void InstantiteDust()
-    {
-        GameObject temp = Instantiate(Dust);
-        temp.transform.position = new Vector3(transform.position.x - 0.5f, transform.position.y, transform.position.z);
-
-        temp = Instantiate(Dust);
-        temp.GetComponent<SpriteRenderer>().flipX = true;
-        temp.transform.position = new Vector3(transform.position.x + 0.5f, transform.position.y, transform.position.z);
     }
 }
